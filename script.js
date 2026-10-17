@@ -22,5 +22,7 @@ async function copyText(value, message) {
     showToast(message);
   }
 }
-document.querySelector('.copy-card').addEventListener('click', () => copyText('1980878786', 'QQ 号已复制'));
+document.querySelectorAll('[data-copy]').forEach(button => {
+  button.addEventListener('click', () => copyText(button.dataset.copy, `${button.dataset.copyLabel}已复制`));
+});
 document.querySelector('.copy-url').addEventListener('click', () => copyText(location.href, '主页链接已复制'));

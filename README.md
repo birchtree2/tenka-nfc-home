@@ -1,4 +1,4 @@
-# xxxxP · NFC Personal Page
+# 海未P · NFC Personal Page
 
 A static, mobile-first personal page that can be opened from an NFC card. No build step or backend.
 
@@ -8,7 +8,7 @@ A static, mobile-first personal page that can be opened from an NFC card. No bui
 - Colors, type and responsive layout: `styles.css`
 - Copy buttons: `script.js`
 
-The display name is left as `xxxxP`; the Xiaohongshu ID is marked `账号待补` until provided. QQ is shown as a copyable ID.
+Display name: `海未P`. QQ: `1980878786`. Bilibili UID: `273294847`. Xiaohongshu number: `42945721056`. GitHub: `birchtree2`. QQ and Xiaohongshu numbers can be copied from their cards; the numeric Xiaohongshu number is not treated as a profile URL. Page titles, social preview metadata and structured profile data use the same identity.
 
 ## Deploy
 
