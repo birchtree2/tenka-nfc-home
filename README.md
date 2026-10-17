@@ -12,7 +12,7 @@ Display name: `海未P`. QQ: `1980878786`. Bilibili UID: `273294847`. Xiaohongsh
 
 ## Deploy
 
-The `main` branch deploys through GitHub Actions to GitHub Pages. Intended custom domain: `umi-cv.com`. DNS setup steps are in [DOMAIN_SETUP.md](DOMAIN_SETUP.md); the custom domain has been added in GitHub, and the Cloudflare apex records still need to be created.
+The `main` branch deploys through GitHub Actions to GitHub Pages. Live URL: https://birchtree2.github.io/tenka-nfc-home/ . Custom-domain routing is disabled for now. The introduction uses the user-supplied original high-resolution PNG with lazy loading; the hero keeps the lightweight WebP.
 
 ## Image credits
 
