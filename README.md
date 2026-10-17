@@ -12,7 +12,7 @@ The display name is left as `xxxxP`; the Xiaohongshu ID is marked `账号待补`
 
 ## Deploy
 
-The `main` branch deploys through GitHub Actions to GitHub Pages. Intended custom domain: `umi-cv.com`.
+The `main` branch deploys through GitHub Actions to GitHub Pages. Intended custom domain: `umi-cv.com`. DNS setup steps are in [DOMAIN_SETUP.md](DOMAIN_SETUP.md); the custom domain has been added in GitHub, and the Cloudflare apex records still need to be created.
 
 ## Image credits
 
