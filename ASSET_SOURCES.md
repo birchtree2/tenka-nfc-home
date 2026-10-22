@@ -18,3 +18,6 @@
 标题使用 Noto Serif SC（思源宋体）600，正文使用 Noto Sans SC（思源黑体）400，参考 Eidolon 的宋体标题与无衬线正文搭配。字体来自 Google Fonts，随项目本地提供 WOFF2，保留拉丁、常用中日韩汉字、假名与标点范围；其他字符使用系统字体回退。SIL Open Font License 见 `assets/fonts/NotoSerifSC-OFL.txt` 和 `assets/fonts/NotoSansSC-OFL.txt`。
 
 加载页专用立绘 `assets/tenka-entry.png` 为用户于 2026-10-22 提供的图片，原样保存。
+
+
+性能版本：用户提供的入场立绘保留透明通道转为 WebP；主页立绘缩放到 960 像素宽后转为 WebP；联系头像缩放至 128×128。原始素材未覆盖。字体新增 `*-display.woff2` 文案子集，沿用原字体许可证，缺字回退系统字体。

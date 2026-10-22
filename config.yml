@@ -19,8 +19,8 @@ profile:
 
 images:
   # 加载页专用立绘。
-  entry_character: "assets/tenka-entry.png"
-  character: "assets/tenka-profile-hd.png"
+  entry_character: "assets/tenka-entry.webp"
+  character: "assets/tenka-profile.webp"
   character_alt: "大崎甜花立绘"
   portrait: "assets/Tenka6thAnniIllust1-1600.webp"
   portrait_alt: "大崎甜花插画"
@@ -58,7 +58,7 @@ contacts:
     label: "Bilibili"
     action: link
     value: "https://space.bilibili.com/273294847"
-    avatar: "assets/avatars/bilibili.jpg"
+    avatar: "assets/avatars/bilibili.webp"
   - id: github
     label: "GitHub"
     action: link
@@ -68,7 +68,7 @@ contacts:
     label: "小红书"
     action: link
     value: "https://www.xiaohongshu.com/user/profile/66d40ff7000000001d0304d1"
-    avatar: "assets/avatars/xiaohongshu.png"
+    avatar: "assets/avatars/xiaohongshu.webp"
 
 theme:
   accent: "#9463ba"
