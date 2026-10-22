@@ -24,9 +24,11 @@
     $(id).hidden=!c.profile.tagline.enable;
   }
   setText('role',c.profile.role);
-  function loadMainImages(){
+  function loadMainImages(priority='high'){
+    $('character').fetchPriority=priority;
     if(!$('character').getAttribute('src'))image('character',c.images.character,c.images.character_alt);
-    document.querySelectorAll('img[data-src]').forEach(img=>{img.src=img.dataset.src;delete img.dataset.src;});
+    document.querySelectorAll('img[data-src]').forEach(img=>{img.fetchPriority=priority==='high'?'auto':'low';img.src=img.dataset.src;delete img.dataset.src;});
+    $('character').decode?.().catch(()=>{});
   }
   if(c.intro.enabled){
     image('entry-character',c.images.entry_character,'大崎甜花加载页立绘');
@@ -182,6 +184,19 @@
   character.addEventListener('error',()=>{if(!failed){failed=true;character.src=c.images.loader;}else character.hidden=true;});
   if(c.intro.enabled){
     openEntry();
+    // Give the entry art first priority, then use the countdown to warm the main view.
+    let warmed=false;
+    const entryImage=$('entry-character');
+    const warmMain=()=>{
+      if(warmed)return;
+      warmed=true;clearTimeout(warmTimer);
+      entryImage.removeEventListener('load',warmMain);
+      entryImage.removeEventListener('error',warmMain);
+      loadMainImages(entering?'high':'low');
+    };
+    const warmTimer=setTimeout(warmMain,Math.min(600,c.intro.duration_seconds*1000/4));
+    if(entryImage.complete)warmMain();
+    else {entryImage.addEventListener('load',warmMain,{once:true});entryImage.addEventListener('error',warmMain,{once:true});}
   }else{enter(muted);}
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden){stopVoice();$('music-player').removeAttribute('src');}
