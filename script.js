@@ -77,9 +77,9 @@
   $('about-link').addEventListener('click',()=>{$('about-details').open=true;});
   const music=$('music-widget');
   music.hidden=!c.music.enabled;
-  const musicURL=()=>`https://music.163.com/outchain/player?type=2&id=${encodeURIComponent(c.music.song_id)}&auto=${muted?0:1}&height=66`;
-  let musicVisible=false;
-  function resetMusic(){if(c.music.enabled&&entering&&(musicVisible||!muted))$('music-player').src=musicURL();}
+  const musicURL=()=>`https://music.163.com/outchain/player?type=2&id=${encodeURIComponent(c.music.song_id)}&auto=${entering&&!muted?1:0}&height=66`;
+  let musicVisible=false, musicWarmed=false;
+  function resetMusic(){if(c.music.enabled&&(musicWarmed||(entering&&(musicVisible||!muted))))$('music-player').src=musicURL();}
   function syncMusic(){
     if(c.music.enabled&&$('music-player').getAttribute('src')!==musicURL())resetMusic();
   }
@@ -147,7 +147,7 @@
   $('replay').hidden=!voice;
   $('replay').addEventListener('click',()=>{muted=false;updateSound();typeDialogue();playVoice();});
   function openEntry(){
-    entering=false;muted=true;voicePending=false;updateSound();
+    entering=false;musicWarmed=false;muted=true;voicePending=false;updateSound();
     musicVisible=false;musicObserver?.disconnect();$('music-player').removeAttribute('src');
     clearTimeout(enterTimer);stopVoice();
     clearTimeout(typingTimer);++typingRun;document.body.classList.remove('is-entered');
@@ -185,14 +185,27 @@
   if(c.intro.enabled){
     openEntry();
     // Give the entry art first priority, then use the countdown to warm the main view.
-    let warmed=false;
+    let warmed=false, restWarmed=false;
+    const warmRest=()=>{
+      if(restWarmed)return;
+      restWarmed=true;
+      // The priority images have a head start; now fill the remaining countdown.
+      const portrait=new Image();portrait.fetchPriority='low';portrait.src=c.images.portrait;
+      if(voice&&voice.readyState===0&&voice.paused){voice.preload='auto';voice.load();}
+      musicWarmed=true;syncMusic();
+    };
     const entryImage=$('entry-character');
     const warmMain=()=>{
       if(warmed)return;
       warmed=true;clearTimeout(warmTimer);
       entryImage.removeEventListener('load',warmMain);
       entryImage.removeEventListener('error',warmMain);
-      loadMainImages(entering?'high':'low');
+      loadMainImages('high');
+      const priorityImages=[$('character'),...$('contacts').querySelectorAll('img')];
+      Promise.race([
+        Promise.allSettled(priorityImages.map(img=>img.decode())),
+        new Promise(resolve=>setTimeout(resolve,Math.min(1000,c.intro.duration_seconds*1000/3)))
+      ]).then(warmRest);
     };
     const warmTimer=setTimeout(warmMain,Math.min(600,c.intro.duration_seconds*1000/4));
     if(entryImage.complete)warmMain();
