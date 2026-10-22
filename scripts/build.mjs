@@ -52,8 +52,14 @@ export async function build({ outputDirectory = 'dist' } = {}) {
   await mkdir(out,{recursive:true});
   await cp(resolve(root,'assets'),resolve(out,'assets'),{recursive:true});
   for (const name of ['styles.css','script.js']) await cp(resolve(root,name),resolve(out,name));
-  const values = {TITLE:c.site.title,DESCRIPTION:c.site.description,URL:c.site.url,SHARE_IMAGE:new URL(c.site.share_image,c.site.url).href,ENTRY_IMAGE:c.images.entry_character,NAME:c.profile.name,TAGLINE:c.profile.tagline.text};
-  const html = (await readFile(resolve(root,'index.html'),'utf8')).replace(/\{\{([A-Z_]+)\}\}/g,(_,key)=>escape(text(values[key],key)));
+  const values = {TITLE:c.site.title,DESCRIPTION:c.site.description,URL:c.site.url,SHARE_IMAGE:new URL(c.site.share_image,c.site.url).href,BODY_CLASS:c.intro.enabled?'entry-open':'',ENTRY_HIDDEN:c.intro.enabled?'':'hidden',SITE_INERT:c.intro.enabled?'inert':'',ENTRY_AVATAR:c.images.loader,ENTRY_IMAGE:c.images.entry_character,NAME:c.profile.name,TAGLINE:c.profile.tagline.text};
+  const configJSON=JSON.stringify(c).replace(/</g,'\\u003c');
+  const stylesheet=await readFile(resolve(root,'styles.css'),'utf8');
+  const runtime=await readFile(resolve(root,'script.js'),'utf8');
+  const html = (await readFile(resolve(root,'index.html'),'utf8'))
+    .replace(/\{\{([A-Z_]+)\}\}/g,(_,key)=>escape(values[key] ?? ''))
+    .replace('<!-- INLINE_STYLES -->',()=>`<style>${stylesheet}</style>`)
+    .replace('<!-- INLINE_SCRIPT -->',()=>`<script>window.SITE_CONFIG=${configJSON};</script><script>${runtime}</script>`);
   await writeFile(resolve(out,'index.html'),html);
   await writeFile(resolve(out,'site-config.js'),`window.SITE_CONFIG = ${JSON.stringify(c,null,2)};\n`);
   await writeFile(resolve(out,'.nojekyll'),'');

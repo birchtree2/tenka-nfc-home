@@ -44,7 +44,7 @@ music:
   artist: "大崎甜花（CV. 前川涼子）"
   song_id: "1363967846"
   url: "https://music.163.com/#/song?id=1363967846"
-  cover: "assets/Tenka6thAnniIllust1-1600.webp"
+  cover: "assets/music-cover.webp"
 
 # action: link 打开链接；copy 直接复制；expand 点击展开 value 和复制按钮。
 # 头像保存为静态文件，不在访客端请求 API。

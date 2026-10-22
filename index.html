@@ -15,18 +15,16 @@
   <title>{{TITLE}}</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23f1e6fa'/%3E%3Cpath d='M32 8Q32 32 56 32Q32 32 32 56Q32 32 8 32Q32 32 32 8Z' fill='%239463ba'/%3E%3C/svg%3E">
   <link rel="preload" as="image" href="{{ENTRY_IMAGE}}" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css">
-  <script src="site-config.js" defer></script>
-  <script src="script.js" defer></script>
+  <!-- INLINE_STYLES -->
 </head>
-<body>
+<body class="{{BODY_CLASS}}">
   <a class="skip-link" href="#profile">跳到个人介绍</a>
   <div class="atmosphere" aria-hidden="true"><div class="aurora aurora-a"></div><div class="aurora aurora-b"></div></div>
-  <div class="entry" id="entry" role="dialog" aria-modal="true" aria-labelledby="entry-name" hidden>
+  <div class="entry" id="entry" role="dialog" aria-modal="true" aria-labelledby="entry-name" {{ENTRY_HIDDEN}}>
     <div class="entry-layout">
-    <div class="entry-art"><img id="entry-character" alt="" fetchpriority="high"></div>
+    <div class="entry-art"><img id="entry-character" src="{{ENTRY_IMAGE}}" alt="大崎甜花加载页立绘" fetchpriority="high"></div>
     <div class="entry-content">
-      <div class="entry-unit"><img id="entry-avatar" alt="" width="64" height="64"><span><span class="entry-flower" aria-hidden="true">✿</span> ALSTROEMERIA</span></div>
+      <div class="entry-unit"><img id="entry-avatar" src="{{ENTRY_AVATAR}}" alt="甜花 Q 版头像" width="64" height="64"><span><span class="entry-flower" aria-hidden="true">✿</span> ALSTROEMERIA</span></div>
       <h1 id="entry-name">{{NAME}}</h1>
       <p id="entry-tagline" hidden>{{TAGLINE}}</p>
       <div class="load-track" role="progressbar" id="entry-progress" aria-label="自动进入进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="load-fill"></span></div>
@@ -35,7 +33,7 @@
     </div>
     </div>
   </div>
-  <div id="site">
+  <div id="site" {{SITE_INERT}}>
     <header class="topbar">
       <a class="brand" href="#profile" aria-label="回到主页"><span class="brand-symbol" aria-hidden="true">✦</span><span id="brand-name">{{NAME}}</span></a>
       <div class="top-controls">
@@ -73,8 +71,9 @@
         </div>
       </section>
       <section class="music-section" id="music-widget" aria-label="音乐" hidden>
-        <div class="music-heading"><span class="music-kicker">♪</span><div><h2 id="song-title"></h2><p id="song-artist"></p></div></div>
+        <div class="music-heading"><img class="music-cover" id="music-cover" alt="歌曲封面" width="64" height="64"><div><h2 id="song-title"></h2><p id="song-artist"></p></div></div>
         <div class="music-embed"><iframe id="music-player" title="音乐播放器" width="100%" height="86" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+        <p class="music-help">播放器空白时，可重新加载或在网易云打开。</p>
         <div class="music-links"><a id="song-link" target="_blank" rel="noopener noreferrer">在网易云打开 ↗</a><button id="music-retry" type="button">重新加载</button></div>
       </section>
       <section class="about-section" id="about" aria-label="详细介绍">
@@ -89,5 +88,6 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <dialog id="copy-dialog"><form method="dialog"><h2 id="copy-title">复制内容</h2><input id="copy-value" readonly aria-label="待复制内容"><p>长按或选中后复制</p><button>关闭</button></form></dialog>
   <noscript><div class="noscript">请开启 JavaScript 以查看主页和联系方式。</div></noscript>
+  <!-- INLINE_SCRIPT -->
 </body>
 </html>

@@ -31,8 +31,8 @@
     $('character').decode?.().catch(()=>{});
   }
   if(c.intro.enabled){
-    image('entry-character',c.images.entry_character,'大崎甜花加载页立绘');
-    image('entry-avatar',c.images.loader,'甜花 Q 版头像');
+    if(!$('entry-character').getAttribute('src'))image('entry-character',c.images.entry_character,'大崎甜花加载页立绘');
+    if(!$('entry-avatar').getAttribute('src'))image('entry-avatar',c.images.loader,'甜花 Q 版头像');
   }
   for(const id of ['entry-character','entry-avatar']) $(id).addEventListener('error',()=>{$(id).hidden=true;});
   $('about-details').addEventListener('toggle',()=>{
@@ -85,6 +85,7 @@
   }
   if(c.music.enabled) {
     setText('song-title',c.music.title);setText('song-artist',c.music.artist);
+    $('music-cover').dataset.src=c.music.cover;
     $('song-link').href=c.music.url;
     $('music-player').title=`${c.music.artist} · ${c.music.title}`;
   }
@@ -112,9 +113,6 @@
     muted=false;updateSound();
     if(shouldPlay)playVoice();
   });
-  window.addEventListener('blur',()=>setTimeout(()=>{
-    if(entering&&document.activeElement===$('music-player')){muted=false;updateSound();stopVoice();}
-  },0));
   function playVoice(){
     if(!voice||muted)return;
     stopVoice();
@@ -190,6 +188,7 @@
       if(restWarmed)return;
       restWarmed=true;
       // The priority images have a head start; now fill the remaining countdown.
+      image('music-cover',c.music.cover,'歌曲封面');
       const portrait=new Image();portrait.fetchPriority='low';portrait.src=c.images.portrait;
       if(voice&&voice.readyState===0&&voice.paused){voice.preload='auto';voice.load();}
       musicWarmed=true;syncMusic();
@@ -211,10 +210,7 @@
     if(entryImage.complete)warmMain();
     else {entryImage.addEventListener('load',warmMain,{once:true});entryImage.addEventListener('error',warmMain,{once:true});}
   }else{enter(muted);}
-  document.addEventListener('visibilitychange',()=>{
-    if(document.hidden){stopVoice();$('music-player').removeAttribute('src');}
-    else if(c.music.enabled)resetMusic();
-  });
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stopVoice();});
   if(window.matchMedia('(pointer:fine)').matches&&!motion.matches){
     $('profile').addEventListener('pointermove',e=>{const r=$('profile').getBoundingClientRect();$('stage-art').style.setProperty('--px',`${(e.clientX-r.left-r.width/2)/r.width*9}px`);$('stage-art').style.setProperty('--py',`${(e.clientY-r.top-r.height/2)/r.height*6}px`);});
     $('profile').addEventListener('pointerleave',()=>{$('stage-art').style.setProperty('--px','0px');$('stage-art').style.setProperty('--py','0px');});

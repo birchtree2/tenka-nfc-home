@@ -57,3 +57,6 @@
 @media(max-width:1250px){.music-section{margin-left:64px;margin-right:64px}}
 @media(max-width:800px){.music-section{margin:0 24px 24px;grid-template-columns:1fr;gap:16px}.music-links{grid-column:1}.music-heading h2{font-size:18px}.stage{padding-top:20px}}
 @media(max-width:600px){.topbar{display:flex;flex-wrap:nowrap}.top-controls{display:flex;width:auto}.music-section{width:auto}}
+
+:root{color-scheme:light}html{background:var(--paper)}.music-cover{width:64px;height:64px;border-radius:16px;object-fit:cover;flex-shrink:0}.music-help{grid-column:2;margin:0;font-size:12px;color:var(--muted)}.music-embed{min-width:0;width:100%}.music-embed iframe{min-width:0;width:100%;background:#fff}
+@media(max-width:800px){.music-help{grid-column:1}.music-heading{gap:14px}}
