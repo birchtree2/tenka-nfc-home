@@ -1,0 +1,80 @@
+# 修改这里，然后运行 npm run build；推送 main 后 GitHub Pages 自动构建。
+# 本文件会成为公开网页的一部分，请只填写愿意公开的信息。
+site:
+  title: "海未P · 个人主页"
+  url: "https://birchtree2.github.io/tenka-nfc-home/"
+  description: "海未P的个人主页 · 大崎甜花担当"
+  share_image: "assets/Tenka6thAnniIllust1-1600.webp"
+
+profile:
+  name: "海未P"
+  role: "大崎甜花担当"
+  # 入场时和首屏显示的一句话；支持中文、标点和 emoji。
+  tagline:
+    enable: false
+    text: "把喜欢的事，慢慢变成日常。"
+  # 展开「关于我」后显示；每一项是一段纯文本，不需要写 HTML。
+  about:
+    - "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+
+images:
+  # 加载页专用立绘。
+  entry_character: "assets/tenka-entry.png"
+  character: "assets/tenka-profile-hd.png"
+  character_alt: "大崎甜花立绘"
+  portrait: "assets/Tenka6thAnniIllust1-1600.webp"
+  portrait_alt: "大崎甜花插画"
+  loader: "assets/TenkaChibi-CelestialColors-1600.webp"
+
+intro:
+  enabled: true
+  # 入场进度条持续秒数，填满后自动进入；0 表示立即进入。
+  duration_seconds: 3
+  speaker: "大崎甜花"
+  japanese: "よろしくお願いします！"
+  chinese: "请多关照！"
+  # 留空即可关闭语音；不要用与台词不对应的音频。
+  voice: "assets/audio/tenka-greeting.mp3"
+  volume: 0.7
+  typing_ms: 145
+
+music:
+  enabled: true
+  title: "アルストロメリア (大崎甜花 Ver.)"
+  artist: "大崎甜花（CV. 前川涼子）"
+  song_id: "1363967846"
+  url: "https://music.163.com/#/song?id=1363967846"
+  cover: "assets/Tenka6thAnniIllust1-1600.webp"
+
+# action: link 打开链接；copy 直接复制；expand 点击展开 value 和复制按钮。
+# 头像保存为静态文件，不在访客端请求 API。
+contacts:
+  - id: qq
+    label: "QQ"
+    action: expand
+    value: "1980878786"
+    avatar: "assets/avatars/qq.jpg"
+  - id: bilibili
+    label: "Bilibili"
+    action: link
+    value: "https://space.bilibili.com/273294847"
+    avatar: "assets/avatars/bilibili.jpg"
+  - id: github
+    label: "GitHub"
+    action: link
+    value: "https://github.com/birchtree2"
+    avatar: "assets/avatars/github.jpg"
+  - id: xiaohongshu
+    label: "小红书"
+    action: link
+    value: "https://www.xiaohongshu.com/user/profile/66d40ff7000000001d0304d1"
+    avatar: "assets/avatars/xiaohongshu.png"
+
+theme:
+  accent: "#9463ba"
+  background: "#f8f7fc"
+
+footer:
+  text: "非官方粉丝主页 · 角色与素材版权归各自权利人所有"
+  credits_label: "素材来源"
+  credits_url: "https://shinycolors.wiki/wiki/Tenka_Osaki/Gallery"
