@@ -78,13 +78,10 @@
   const music=$('music-widget');
   music.hidden=!c.music.enabled;
   const musicURL=()=>`https://music.163.com/outchain/player?type=2&id=${encodeURIComponent(c.music.song_id)}&auto=${entering&&!muted?1:0}&height=66`;
-  let musicVisible=false, musicWarmed=false;
-  const compactMusic=window.matchMedia('(max-width:800px)');
   function resetMusic(){
     if(!c.music.enabled||!entering||document.body.classList.contains('entry-open'))return;
-    // Mobile embeds must initialize in a visible, laid-out region.
-    if(compactMusic.matches&&!musicVisible)return;
-    if(musicWarmed||musicVisible||!muted)$('music-player').src=musicURL();
+    // Use the same eager initialization on phones and desktops.
+    $('music-player').src=musicURL();
   }
   let musicPrefetched=false;
   function prefetchMusic(){
@@ -104,10 +101,15 @@
     $('song-link').href=c.music.url;
     $('music-player').title=`${c.music.artist} · ${c.music.title}`;
   }
-  const musicObserver='IntersectionObserver' in window?new IntersectionObserver(entries=>{
-    if(entries.some(e=>e.isIntersecting)){musicVisible=true;syncMusic();}
-  },{rootMargin:'150px'}):null;
-  $('music-retry').addEventListener('click',()=>{musicVisible=true;resetMusic();});
+  $('music-retry').addEventListener('click',()=>{
+    // Replace the failed browsing context, without a second sound-toggle navigation.
+    const previous=$('music-player');
+    const replacement=previous.cloneNode(false);
+    replacement.removeAttribute('src');
+    previous.replaceWith(replacement);
+    resetMusic();
+  });
+  $('music-direct').href=`https://music.163.com/outchain/player?type=2&id=${encodeURIComponent(c.music.song_id)}&auto=0&height=66`;
   function stopVoice(){if(voice){voice.pause();voice.currentTime=0;}}
   function updateSound(){
     $('entry-sound-toggle').setAttribute('aria-pressed',String(!muted));
@@ -123,7 +125,7 @@
   $('sound-toggle').addEventListener('click',()=>{muted=!muted;updateSound();if(muted){voicePending=false;stopVoice();}else playVoice();});
   $('entry-sound-toggle').addEventListener('click',()=>{muted=!muted;updateSound();});
   document.addEventListener('click',e=>{
-    if(!e.isTrusted||!entering||e.target.closest('#entry-sound-toggle,#sound-toggle,#replay,#reenter,#dialogue-close'))return;
+    if(!e.isTrusted||!entering||e.target.closest('#entry-sound-toggle,#sound-toggle,#replay,#reenter,#dialogue-close,#music-retry,#music-direct,#song-link'))return;
     const shouldPlay=muted||voicePending;
     muted=false;updateSound();
     if(shouldPlay)playVoice();
@@ -147,7 +149,6 @@
     if(entering)return;entering=true;clearInterval(countdownTimer);
     loadMainImages();
     muted=silent;updateSound();
-    if(c.music.enabled){if(musicObserver)musicObserver.observe(music);else{musicVisible=true;syncMusic();}}
     $('site').inert=false;document.body.classList.remove('entry-open');
     syncMusic();
     document.body.classList.add('is-entered');
@@ -168,8 +169,8 @@
   $('replay').addEventListener('click',()=>{muted=false;updateSound();typeDialogue();playVoice();});
   function openEntry(){
     dialogueDismissed=false;
-    entering=false;musicWarmed=false;muted=true;voicePending=false;updateSound();
-    musicVisible=false;musicObserver?.disconnect();$('music-player').removeAttribute('src');
+    entering=false;muted=true;voicePending=false;updateSound();
+    $('music-player').removeAttribute('src');
     clearTimeout(enterTimer);stopVoice();
     clearTimeout(typingTimer);++typingRun;document.body.classList.remove('is-entered');
     document.body.classList.add('entry-open');$('site').inert=true;
@@ -214,7 +215,7 @@
       image('music-cover',c.music.cover,'歌曲封面');
       const portrait=new Image();portrait.fetchPriority='low';portrait.src=c.images.portrait;
       if(voice&&voice.readyState===0&&voice.paused){voice.preload='auto';voice.load();}
-      musicWarmed=true;prefetchMusic();syncMusic();
+      prefetchMusic();syncMusic();
     };
     const entryImage=$('entry-character');
     const warmMain=()=>{
