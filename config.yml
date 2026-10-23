@@ -18,6 +18,7 @@ profile:
     - "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
 images:
+  entry_avatar: "assets/entry-chibi.webp"
   character: "assets/tenka-profile-640.webp"
   character_alt: "大崎甜花立绘"
   portrait: "assets/Tenka6thAnniIllust1-1600.webp"
@@ -42,7 +43,7 @@ music:
   artist: "大崎甜花（CV. 前川涼子）"
   song_id: "1363967846"
   url: "https://music.163.com/#/song?id=1363967846"
-  cover: "assets/music-cover.webp"
+  cover: "assets/music-tenka-6th.webp"
 
 # action: link 打开链接；copy 直接复制；expand 点击展开 value 和复制按钮。
 # 头像保存为静态文件，不在访客端请求 API。

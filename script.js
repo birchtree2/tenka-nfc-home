@@ -7,8 +7,8 @@
   let muted = true, voicePending = false, dialogueDismissed = false;
   let toastTimer, typingTimer, enterTimer, typingRun = 0;
   let entering = false, countdownTimer;
-  const voice = c.intro.voice ? new Audio(c.intro.voice) : null;
-  if (voice) { voice.id = 'intro-voice'; voice.hidden = true; voice.preload = 'none'; voice.volume = c.intro.volume; document.body.append(voice); }
+  const voice = c.intro.voice ? new Audio() : null;
+  if (voice) { voice.id = 'intro-voice'; voice.hidden = true; voice.preload = 'auto'; voice.volume = c.intro.volume; voice.src = c.intro.voice; document.body.append(voice); voice.load(); }
   const setText = (id, value) => { $(id).textContent = value; };
   function showToast(message) {
     setText('toast',message); $('toast').classList.add('show');
@@ -214,7 +214,6 @@
     restWarmed=true;
     if(c.music.enabled)image('music-cover',c.music.cover,'歌曲封面');
     const portrait=new Image();portrait.fetchPriority='low';portrait.src=c.images.portrait;
-    if(voice&&voice.readyState===0&&voice.paused){voice.preload='auto';voice.load();}
     prefetchMusic();
   };
   // Secondary images and audio still warm during the countdown, at lower priority.

@@ -84,3 +84,8 @@
 .entry-unit{font:500 11px/1.5 system-ui,sans-serif;letter-spacing:.18em}
 .entry .load-track{height:4px;margin:28px auto 12px}
 .entry-content>.countdown{font-size:13px;min-height:24px;margin-bottom:24px}
+
+.entry-avatar{display:block;width:80px;height:80px;padding:7px;margin:0 auto 18px;border-radius:50%;object-fit:contain;background:#eee5f5;border:1px solid #e4d7ee}
+.entry h1{font:500 clamp(18px,4.6vw,22px)/1.7 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.02em;margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:0 .5em}
+.entry h1 strong{font-weight:650}
+.music-cover{object-position:center top;background:#eee5f5}
