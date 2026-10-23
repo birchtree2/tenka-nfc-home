@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>播放器 HTTPS 跳转对照</title>
+<style>body{max-width:720px;margin:32px auto;padding:0 20px;font:16px/1.7 system-ui;background:#f8f7fc;color:#332b3d}iframe{width:100%;height:130px;border:1px solid #dfd2e8;border-radius:12px;background:white}code{overflow-wrap:anywhere}h2{font-size:20px}</style></head><body>
+<h1>播放器 HTTPS 跳转对照</h1><p>必须在 HTTPS 地址测试。两个框请求相同地址；第二个框启用 HTTPS 自动升级。此页不收集或上传诊断数据。</p><p id="case"></p>
+<h2>原行为：允许服务端返回 HTTP 跳转</h2><iframe id="before" title="修复前"></iframe>
+<h2>修复后：将跳转升级为 HTTPS</h2><iframe id="after" title="修复后"></iframe>
+<p>预期：原行为被浏览器拦截，修复后显示歌名和播放器。某些浏览器的 HSTS 缓存可能让原行为也显示；这不代表其他设备没有降级问题。</p>
+<script>
+// Request the opposite device route to exercise NetEase's downgrade redirect on either platform.
+const mobile=/Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+const path=mobile?'/outchain/player':'/m/outchain/player';
+const url='https://music.163.com'+path+'?type=2&id=1363967846&auto=0&height=66';
+document.getElementById('case').textContent='测试地址：'+url;
+const player='<iframe title="网易云播放器" src="'+url+'" width="100%" height="86" style="border:0"></iframe>';
+document.getElementById('before').srcdoc=player;
+document.getElementById('after').srcdoc='<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">'+player;
+</script></body></html>
