@@ -1,8 +1,8 @@
-# 修改这里，然后运行 npm run build；推送 main 后 GitHub Pages 自动构建。
+# 修改后运行 bash scripts/deploy-aliyun.sh 发布正式站；GitHub Pages 保留备用。
 # 本文件会成为公开网页的一部分，请只填写愿意公开的信息。
 site:
   title: "海未P · 个人主页"
-  url: "https://birchtree2.github.io/tenka-nfc-home/"
+  url: "https://card.umi-cv.com/"
   description: "海未P的个人主页 · 大崎甜花担当"
   share_image: "assets/Tenka6thAnniIllust1-1600.webp"
 
