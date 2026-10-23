@@ -17,7 +17,7 @@ export async function build({ outputDirectory = 'dist' } = {}) {
   const document = parseDocument(await readFile(resolve(root, 'config.yml'), 'utf8'), { uniqueKeys: true });
   if (document.errors.length) throw new Error(document.errors.map(e => e.message).join('\n'));
   const c = document.toJS({ maxAliasCount: 50 });
-  for (const [name, fields] of Object.entries({site:['title','url','description','share_image'],profile:['name','role'],images:['entry_character','character','character_alt','portrait','portrait_alt','loader'],intro:['speaker','japanese','chinese'],music:['title','artist','song_id','url','cover'],footer:['text','credits_label','credits_url']})) {
+  for (const [name, fields] of Object.entries({site:['title','url','description','share_image'],profile:['name','role'],images:['character','character_alt','portrait','portrait_alt','loader'],intro:['speaker','japanese','chinese'],music:['title','artist','song_id','url','cover'],footer:['text','credits_label','credits_url']})) {
     if (!c[name] || typeof c[name] !== 'object') throw new Error(`缺少配置 ${name}`);
     for (const field of fields) text(c[name][field], `${name}.${field}`);
   }
@@ -42,7 +42,7 @@ export async function build({ outputDirectory = 'dist' } = {}) {
   if (typeof c.intro.voice !== 'string') throw new Error('intro.voice 必须是路径或空字符串');
   if (!Number.isFinite(c.intro.volume) || c.intro.volume < 0 || c.intro.volume > 1) throw new Error('intro.volume 必须在 0–1 之间');
   if (!Number.isFinite(c.intro.typing_ms) || c.intro.typing_ms < 0 || c.intro.typing_ms > 500) throw new Error('intro.typing_ms 必须在 0–500 之间');
-  const assets = [c.site.share_image,c.images.entry_character,c.images.character,c.images.portrait,c.images.loader,c.music.cover,...c.contacts.map(x=>x.avatar),c.intro.voice].filter(Boolean);
+  const assets = [c.site.share_image,c.images.character,c.images.portrait,c.images.loader,c.music.cover,...c.contacts.map(x=>x.avatar),c.intro.voice].filter(Boolean);
   for (const asset of assets) {
     if (/^https:\/\//.test(asset)) {webURL(asset,'asset');continue;}
     if (!asset.startsWith('assets/') || asset.split('/').includes('..')) throw new Error(`素材路径必须以 assets/ 开头: ${asset}`);
@@ -52,12 +52,22 @@ export async function build({ outputDirectory = 'dist' } = {}) {
   await mkdir(out,{recursive:true});
   await cp(resolve(root,'assets'),resolve(out,'assets'),{recursive:true});
   for (const name of ['styles.css','script.js']) await cp(resolve(root,name),resolve(out,name));
-  const values = {TITLE:c.site.title,DESCRIPTION:c.site.description,URL:c.site.url,SHARE_IMAGE:new URL(c.site.share_image,c.site.url).href,BODY_CLASS:c.intro.enabled?'entry-open':'',ENTRY_HIDDEN:c.intro.enabled?'':'hidden',SITE_INERT:c.intro.enabled?'inert':'',ENTRY_AVATAR:c.images.loader,ENTRY_IMAGE:c.images.entry_character,NAME:c.profile.name,TAGLINE:c.profile.tagline.text};
-  const configJSON=JSON.stringify(c).replace(/</g,'\\u003c');
+  const values = {TITLE:c.site.title,DESCRIPTION:c.site.description,URL:c.site.url,SHARE_IMAGE:new URL(c.site.share_image,c.site.url).href,BODY_CLASS:c.intro.enabled?'entry-open':'',ENTRY_HIDDEN:c.intro.enabled?'':'hidden',SITE_INERT:c.intro.enabled?'inert':'',MAIN_IMAGE:c.images.character,MAIN_ALT:c.images.character_alt,NAME:c.profile.name,TAGLINE:c.profile.tagline.text};
+  // This tiny avatar travels with the HTML, avoiding another mobile connection.
+  const runtimeConfig=structuredClone(c);
+  for(const contact of runtimeConfig.contacts){
+    if(contact.id==='xiaohongshu' && contact.avatar.startsWith('assets/') && contact.avatar.endsWith('.webp')){
+      const bytes=await readFile(resolve(root,contact.avatar));
+      if(bytes.length<=8192)contact.avatar=`data:image/webp;base64,${bytes.toString('base64')}`;
+    }
+  }
+  const contactPreloads=runtimeConfig.contacts.filter(x=>!x.avatar.startsWith('data:')).map(x=>`<link rel="preload" as="image" href="${escape(x.avatar)}" fetchpriority="high">`).join('\n  ');
+  const configJSON=JSON.stringify(runtimeConfig).replace(/</g,'\\u003c');
   const stylesheet=await readFile(resolve(root,'styles.css'),'utf8');
   const runtime=await readFile(resolve(root,'script.js'),'utf8');
   const html = (await readFile(resolve(root,'index.html'),'utf8'))
     .replace(/\{\{([A-Z_]+)\}\}/g,(_,key)=>escape(values[key] ?? ''))
+    .replace('<!-- CONTACT_PRELOADS -->',()=>contactPreloads)
     .replace('<!-- INLINE_STYLES -->',()=>`<style>${stylesheet}</style>`)
     .replace('<!-- INLINE_SCRIPT -->',()=>`<script>window.SITE_CONFIG=${configJSON};</script><script>${runtime}</script>`);
   await writeFile(resolve(out,'index.html'),html);

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <!-- NetEase redirects mobile embeds through HTTP; upgrade before mixed-content blocking. -->
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <style>html,body{margin:0;background:#f8f7fc;color:#302735;color-scheme:light}</style>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f8f7fc">
   <meta name="description" content="{{DESCRIPTION}}">
@@ -16,7 +17,8 @@
   <link rel="canonical" href="{{URL}}">
   <title>{{TITLE}}</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23f1e6fa'/%3E%3Cpath d='M32 8Q32 32 56 32Q32 32 32 56Q32 32 8 32Q32 32 32 8Z' fill='%239463ba'/%3E%3C/svg%3E">
-  <link rel="preload" as="image" href="{{ENTRY_IMAGE}}" fetchpriority="high">
+  <link rel="preload" as="image" href="{{MAIN_IMAGE}}" fetchpriority="high">
+  <!-- CONTACT_PRELOADS -->
   <!-- INLINE_STYLES -->
 </head>
 <body class="{{BODY_CLASS}}">
@@ -24,9 +26,8 @@
   <div class="atmosphere" aria-hidden="true"><div class="aurora aurora-a"></div><div class="aurora aurora-b"></div></div>
   <div class="entry" id="entry" role="dialog" aria-modal="true" aria-labelledby="entry-name" {{ENTRY_HIDDEN}}>
     <div class="entry-layout">
-    <div class="entry-art"><img id="entry-character" src="{{ENTRY_IMAGE}}" alt="大崎甜花加载页立绘" fetchpriority="high"></div>
     <div class="entry-content">
-      <div class="entry-unit"><img id="entry-avatar" src="{{ENTRY_AVATAR}}" alt="甜花 Q 版头像" width="64" height="64"><span><span class="entry-flower" aria-hidden="true">✿</span> ALSTROEMERIA</span></div>
+      <div class="entry-unit">ALSTROEMERIA</div>
       <h1 id="entry-name">TENKA</h1>
       <p id="entry-tagline" hidden>{{TAGLINE}}</p>
       <div class="load-track" role="progressbar" id="entry-progress" aria-label="自动进入进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="load-fill"></span></div>
@@ -57,7 +58,7 @@
           </svg>
           <span class="art-glint glint-a" aria-hidden="true">✦</span><span class="art-glint glint-b" aria-hidden="true">✦</span>
           <div class="art-caption" aria-hidden="true"><span></span>ALSTROEMERIA<span></span></div>
-          <img id="character" class="character" alt="" decoding="async">
+          <img id="character" class="character" src="{{MAIN_IMAGE}}" alt="{{MAIN_ALT}}" fetchpriority="high" loading="eager" decoding="async">
         <div class="dialogue" id="dialogue" hidden>
           <div class="dialogue-top"><span><i aria-hidden="true"></i><b id="speaker"></b></span><div class="dialogue-actions"><button id="replay" type="button" aria-label="重播入场语音和台词">播放语音</button><button id="dialogue-close" type="button" aria-label="关闭语音对话框">×</button></div></div>
           <p class="japanese" id="japanese" lang="ja" aria-hidden="true"></p><p class="sr-only" id="spoken-line"></p>

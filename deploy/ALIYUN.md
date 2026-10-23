@@ -21,7 +21,10 @@ GitHub Pages 工作流保留为备用发布，它不会自动更新阿里云。
 
 ## 缓存与预加载
 
-WebP、裁剪字体、内联首屏代码、加载页优先图、主立绘和头像优先、倒计时预加载其他资源均保留。
+加载页仅文字和进度条，无图片和外部字体依赖。默认 5 秒，期间优先加载并解码主页立绘与头像；慢网最多额外等待 10 秒，Escape 可提前进入。
+主立绘在 HTML 中直接声明并高优先级预加载，640px 透明 WebP 约 61 KB；小红书头像（不超过 8 KB 的本地 WebP）内联到页面。其他资源仍在倒计时期间预加载。
+立绘压缩命令：`cwebp -resize 640 0 -q 72 -alpha_q 85 -m 6 assets/tenka-profile-hd.png -o assets/tenka-profile-640.webp`。
+裁剪字体和内联首屏代码保留。
 HTML、脚本和配置使用 `Cache-Control: no-cache` 配合 ETag，允许缓存但每次重新验证。
 `/assets/` 保持 GitHub Pages 原先的 600 秒缓存；文件名未指纹化，因此不设置 immutable。
 文本文件由本机预压缩，Nginx 使用 gzip_static；图片、字体等已压缩格式不重复 gzip。

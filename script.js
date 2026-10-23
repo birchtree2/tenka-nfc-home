@@ -27,14 +27,9 @@
   function loadMainImages(priority='high'){
     $('character').fetchPriority=priority;
     if(!$('character').getAttribute('src'))image('character',c.images.character,c.images.character_alt);
-    document.querySelectorAll('img[data-src]').forEach(img=>{img.fetchPriority=priority==='high'?'auto':'low';img.src=img.dataset.src;delete img.dataset.src;});
+    $('contacts').querySelectorAll('img[data-src]').forEach(img=>{img.fetchPriority=priority;img.src=img.dataset.src;delete img.dataset.src;});
     $('character').decode?.().catch(()=>{});
   }
-  if(c.intro.enabled){
-    if(!$('entry-character').getAttribute('src'))image('entry-character',c.images.entry_character,'大崎甜花加载页立绘');
-    if(!$('entry-avatar').getAttribute('src'))image('entry-avatar',c.images.loader,'甜花 Q 版头像');
-  }
-  for(const id of ['entry-character','entry-avatar']) $(id).addEventListener('error',()=>{$(id).hidden=true;});
   $('about-details').addEventListener('toggle',()=>{
     if($('about-details').open&&!$('about-portrait').getAttribute('src'))image('about-portrait',c.images.portrait,c.images.portrait_alt);
   });
@@ -184,10 +179,13 @@
     setText('countdown','0%');
     if(duration===0){enter(muted);return;}
     countdownTimer=setInterval(()=>{
-      const progress=Math.min(100,Math.floor((performance.now()-started)/duration*100));
+      const elapsed=performance.now()-started;
+      // Give slow images time to decode; never leave the visitor trapped on failure.
+      const ready=mainReady||elapsed>=duration+10000;
+      const progress=Math.min(ready?100:99,Math.floor(elapsed/duration*100));
       $('load-fill').style.width=`${progress}%`;
       $('entry-progress').setAttribute('aria-valuenow',String(progress));
-      setText('countdown',`${progress}%`);
+      setText('countdown',elapsed>=duration&&!ready?'正在准备主页图片…':`${progress}%`);
       if(progress===100)enter(muted);
     },50);
   }
@@ -204,36 +202,24 @@
   });
   const character=$('character');let failed=false;
   character.addEventListener('error',()=>{if(!failed){failed=true;character.src=c.images.loader;}else character.hidden=true;});
-  if(c.intro.enabled){
-    openEntry();
-    // Give the entry art first priority, then use the countdown to warm the main view.
-    let warmed=false, restWarmed=false;
-    const warmRest=()=>{
-      if(restWarmed)return;
-      restWarmed=true;
-      // The priority images have a head start; now fill the remaining countdown.
-      image('music-cover',c.music.cover,'歌曲封面');
-      const portrait=new Image();portrait.fetchPriority='low';portrait.src=c.images.portrait;
-      if(voice&&voice.readyState===0&&voice.paused){voice.preload='auto';voice.load();}
-      prefetchMusic();syncMusic();
-    };
-    const entryImage=$('entry-character');
-    const warmMain=()=>{
-      if(warmed)return;
-      warmed=true;clearTimeout(warmTimer);
-      entryImage.removeEventListener('load',warmMain);
-      entryImage.removeEventListener('error',warmMain);
-      loadMainImages('high');
-      const priorityImages=[$('character'),...$('contacts').querySelectorAll('img')];
-      Promise.race([
-        Promise.allSettled(priorityImages.map(img=>img.decode())),
-        new Promise(resolve=>setTimeout(resolve,Math.min(1000,c.intro.duration_seconds*1000/3)))
-      ]).then(warmRest);
-    };
-    const warmTimer=setTimeout(warmMain,Math.min(600,c.intro.duration_seconds*1000/4));
-    if(entryImage.complete)warmMain();
-    else {entryImage.addEventListener('load',warmMain,{once:true});entryImage.addEventListener('error',warmMain,{once:true});}
-  }else{enter(muted);}
+  // Start the visible main images immediately, without waiting for entry artwork.
+  loadMainImages('high');
+  let mainReady=false;
+  const priorityImages=[$('character'),...$('contacts').querySelectorAll('img')];
+  const mainImagesReady=Promise.allSettled(priorityImages.map(img=>img.decode()));
+  mainImagesReady.then(()=>{mainReady=true;});
+  let restWarmed=false;
+  const warmRest=()=>{
+    if(restWarmed)return;
+    restWarmed=true;
+    if(c.music.enabled)image('music-cover',c.music.cover,'歌曲封面');
+    const portrait=new Image();portrait.fetchPriority='low';portrait.src=c.images.portrait;
+    if(voice&&voice.readyState===0&&voice.paused){voice.preload='auto';voice.load();}
+    prefetchMusic();
+  };
+  // Secondary images and audio still warm during the countdown, at lower priority.
+  Promise.race([mainImagesReady,new Promise(resolve=>setTimeout(resolve,2500))]).then(warmRest);
+  if(c.intro.enabled)openEntry();else enter(muted);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stopVoice();});
   if(window.matchMedia('(pointer:fine)').matches&&!motion.matches){
     $('profile').addEventListener('pointermove',e=>{const r=$('profile').getBoundingClientRect();$('stage-art').style.setProperty('--px',`${(e.clientX-r.left-r.width/2)/r.width*9}px`);$('stage-art').style.setProperty('--py',`${(e.clientY-r.top-r.height/2)/r.height*6}px`);});

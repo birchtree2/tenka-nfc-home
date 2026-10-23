@@ -75,3 +75,12 @@
 @media(max-width:800px){.stage{padding:8px 24px 24px}.identity-heading{margin-bottom:8px}.stage-art{height:clamp(250px,calc(100svh - 350px),440px);min-height:0;margin:8px 0 16px}.stage-art .character{height:calc(100% - 96px)}.stage-art .dialogue{left:0;right:0;padding:9px 16px 12px}.dialogue-top{min-height:30px}.dialogue-top b{font-size:12px}.dialogue-top button{min-height:32px}.stage-art .japanese{font-size:19px;line-height:1.5;min-height:29px;margin:0}.stage-art .translation{font-size:13px;line-height:1.6}.dialogue-next{bottom:12px;right:14px}.art-caption{display:none}.art-wordmark{font-size:clamp(64px,20cqw,100px)}.art-flower{width:40px;height:40px}.contacts{margin:0;gap:10px}.contact{min-height:64px;padding:10px 12px}.contact img{width:38px;height:38px}.about-link{margin-top:6px;min-height:44px}.entry-layout{grid-template-columns:1fr;gap:12px;max-width:400px}.entry-art{height:34svh;min-height:150px}.entry h1{font-size:40px;margin:12px 0}.entry-unit>img{width:44px;height:44px}.entry .load-track{margin-top:20px}.entry-content>.countdown{margin-bottom:16px}.entry-sound-toggle{min-height:52px;padding:12px 24px}.entry{padding:20px 24px;max-height:none}}
 
 .dialogue-actions{display:flex;align-items:center;gap:4px}.dialogue-actions #dialogue-close{display:grid;place-items:center;width:44px;min-height:44px;padding:0;background:transparent;font:26px/1 var(--sans);color:var(--muted);border-radius:50%}.dialogue-actions #dialogue-close:hover{background:#9463ba12;color:var(--accent)}
+
+/* Lightweight entry: no image or downloaded font is required for first paint. */
+.entry{background:#f8f7fc}
+.entry-layout{display:block;width:min(400px,100%);max-width:400px}
+.entry-content{width:100%;margin:auto;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+.entry h1{font:600 clamp(40px,10vw,56px)/1.4 Georgia,"Times New Roman",serif;letter-spacing:.08em;margin:20px 0}
+.entry-unit{font:500 11px/1.5 system-ui,sans-serif;letter-spacing:.18em}
+.entry .load-track{height:4px;margin:28px auto 12px}
+.entry-content>.countdown{font-size:13px;min-height:24px;margin-bottom:24px}

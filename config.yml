@@ -18,9 +18,7 @@ profile:
     - "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
 images:
-  # 加载页专用立绘。
-  entry_character: "assets/tenka-entry.webp"
-  character: "assets/tenka-profile.webp"
+  character: "assets/tenka-profile-640.webp"
   character_alt: "大崎甜花立绘"
   portrait: "assets/Tenka6thAnniIllust1-1600.webp"
   portrait_alt: "大崎甜花插画"
@@ -28,8 +26,8 @@ images:
 
 intro:
   enabled: true
-  # 入场进度条持续秒数，填满后自动进入；0 表示立即进入。
-  duration_seconds: 3
+  # 入场最短秒数；图片未就绪时最多多等 10 秒，0 表示立即进入。
+  duration_seconds: 5
   speaker: "大崎甜花"
   japanese: "よろしくお願いします！"
   chinese: "请多关照！"
