@@ -4,7 +4,7 @@
   if (!c) { document.body.insertAdjacentHTML('afterbegin','<p role="alert">页面配置未加载，请刷新重试。</p>'); return; }
   const $ = id => document.getElementById(id);
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let muted = true, voicePending = false;
+  let muted = true, voicePending = false, dialogueDismissed = false;
   let toastTimer, typingTimer, enterTimer, typingRun = 0;
   let entering = false, countdownTimer;
   const voice = c.intro.voice ? new Audio(c.intro.voice) : null;
@@ -123,16 +123,16 @@
   $('sound-toggle').addEventListener('click',()=>{muted=!muted;updateSound();if(muted){voicePending=false;stopVoice();}else playVoice();});
   $('entry-sound-toggle').addEventListener('click',()=>{muted=!muted;updateSound();});
   document.addEventListener('click',e=>{
-    if(!e.isTrusted||!entering||e.target.closest('#entry-sound-toggle,#sound-toggle,#replay,#reenter'))return;
+    if(!e.isTrusted||!entering||e.target.closest('#entry-sound-toggle,#sound-toggle,#replay,#reenter,#dialogue-close'))return;
     const shouldPlay=muted||voicePending;
     muted=false;updateSound();
     if(shouldPlay)playVoice();
   });
   function playVoice(){
-    if(!voice||muted)return;
+    if(!voice||muted||dialogueDismissed)return;
     stopVoice();
     voicePending=false;
-    voice.play().then(()=>{voicePending=false;setText('replay','重播语音');}).catch(()=>{voicePending=!muted;setText('replay','播放语音');});
+    voice.play().then(()=>{voicePending=false;setText('replay','重播语音');}).catch(()=>{voicePending=!muted&&!dialogueDismissed;setText('replay','播放语音');});
   }
   voice?.addEventListener('error',()=>{if(entering&&!muted)showToast('语音暂时无法加载');});
   function typeDialogue(){
@@ -158,9 +158,16 @@
     clearTimeout(enterTimer);enterTimer=setTimeout(()=>{$('entry').hidden=true;},motion.matches?0:700);
     $('profile-name').tabIndex=-1;$('profile-name').focus({preventScroll:true});
   }
+  $('dialogue-close').addEventListener('click',()=>{
+    dialogueDismissed=true;voicePending=false;stopVoice();
+    clearTimeout(typingTimer);++typingRun;
+    $('dialogue').hidden=true;
+    $('profile-name').focus({preventScroll:true});
+  });
   $('replay').hidden=!voice;
   $('replay').addEventListener('click',()=>{muted=false;updateSound();typeDialogue();playVoice();});
   function openEntry(){
+    dialogueDismissed=false;
     entering=false;musicWarmed=false;muted=true;voicePending=false;updateSound();
     musicVisible=false;musicObserver?.disconnect();$('music-player').removeAttribute('src');
     clearTimeout(enterTimer);stopVoice();
