@@ -18,7 +18,7 @@
   document.documentElement.style.setProperty('--accent',c.theme.accent);
   document.documentElement.style.setProperty('--paper',c.theme.background);
   document.querySelector('meta[name="theme-color"]').content=c.theme.background;
-  for (const id of ['entry-name','profile-name','brand-name','about-name']) setText(id,c.profile.name);
+  for (const id of ['profile-name','about-name']) setText(id,c.profile.name);
   for (const id of ['entry-tagline','tagline']) {
     setText(id,c.profile.tagline.text);
     $(id).hidden=!c.profile.tagline.enable;

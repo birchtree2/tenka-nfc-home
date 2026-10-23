@@ -25,7 +25,7 @@
     <div class="entry-art"><img id="entry-character" src="{{ENTRY_IMAGE}}" alt="大崎甜花加载页立绘" fetchpriority="high"></div>
     <div class="entry-content">
       <div class="entry-unit"><img id="entry-avatar" src="{{ENTRY_AVATAR}}" alt="甜花 Q 版头像" width="64" height="64"><span><span class="entry-flower" aria-hidden="true">✿</span> ALSTROEMERIA</span></div>
-      <h1 id="entry-name">{{NAME}}</h1>
+      <h1 id="entry-name">TENKA</h1>
       <p id="entry-tagline" hidden>{{TAGLINE}}</p>
       <div class="load-track" role="progressbar" id="entry-progress" aria-label="自动进入进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="load-fill"></span></div>
       <p class="countdown" id="countdown">0%</p>
@@ -35,37 +35,37 @@
   </div>
   <div id="site" {{SITE_INERT}}>
     <header class="topbar">
-      <a class="brand" href="#profile" aria-label="回到主页"><span class="brand-symbol" aria-hidden="true">✦</span><span id="brand-name">{{NAME}}</span></a>
+      <a class="brand" href="#profile" aria-label="回到主页"><span class="brand-symbol" aria-hidden="true">✦</span><span class="brand-label">ALSTROEMERIA</span></a>
       <div class="top-controls">
         <button id="sound-toggle" class="icon-button" type="button" aria-label="关闭入场语音" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/><path class="sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
       </div>
     </header>
     <main>
       <section class="stage" id="profile" aria-labelledby="profile-name">
-        <div class="stage-art" id="stage-art" aria-hidden="true">
-          <div class="art-panel"></div>
-          <div class="art-wordmark">TENKA</div>
-          <svg class="art-ribbon" viewBox="0 0 520 680" fill="none">
+        <div class="stage-art" id="stage-art">
+          <div class="art-panel" aria-hidden="true"></div>
+          <div class="art-wordmark" aria-hidden="true">TENKA</div>
+          <svg class="art-ribbon" aria-hidden="true" viewBox="0 0 520 680" fill="none">
             <path class="ribbon-main" d="M85 540C-30 365 78 80 283 65C486 50 563 344 421 554"/>
             <path class="ribbon-tail" d="M45 465C129 605 414 586 484 373"/>
             <circle cx="85" cy="540" r="5"/><circle cx="484" cy="373" r="4"/>
           </svg>
-          <svg class="art-flower" viewBox="0 0 100 100" fill="none">
+          <svg class="art-flower" aria-hidden="true" viewBox="0 0 100 100" fill="none">
             <g><path d="M50 48C11 28 33-12 50 10C67-12 89 28 50 48Z"/><path d="M50 48C11 28 33-12 50 10C67-12 89 28 50 48Z" transform="rotate(120 50 50)"/><path d="M50 48C11 28 33-12 50 10C67-12 89 28 50 48Z" transform="rotate(240 50 50)"/></g><circle cx="50" cy="50" r="5"/>
           </svg>
-          <span class="art-glint glint-a">✦</span><span class="art-glint glint-b">✦</span>
-          <div class="art-caption"><span></span>ALSTROEMERIA<span></span></div>
+          <span class="art-glint glint-a" aria-hidden="true">✦</span><span class="art-glint glint-b" aria-hidden="true">✦</span>
+          <div class="art-caption" aria-hidden="true"><span></span>ALSTROEMERIA<span></span></div>
           <img id="character" class="character" alt="" decoding="async">
-        </div>
-        <div class="identity">
-          <p class="identity-overline"><span class="status-dot"></span><span id="role"></span></p>
-          <h1 id="profile-name">{{NAME}}</h1>
-          <p class="tagline" id="tagline" hidden>{{TAGLINE}}</p>
         <div class="dialogue" id="dialogue" hidden>
           <div class="dialogue-top"><span><i aria-hidden="true"></i><b id="speaker"></b></span><button id="replay" type="button" aria-label="重播入场语音和台词">播放语音</button></div>
           <p class="japanese" id="japanese" lang="ja" aria-hidden="true"></p><p class="sr-only" id="spoken-line"></p>
-          <p class="translation" id="translation"></p>
+          <p class="translation" id="translation"></p><span class="dialogue-next" aria-hidden="true">◆</span>
         </div>
+
+        </div>
+        <div class="identity">
+          <div class="identity-heading"><h1 id="profile-name">{{NAME}}</h1><span class="identity-divider" aria-hidden="true">/</span><span id="role"></span></div>
+          <p class="tagline" id="tagline" hidden>{{TAGLINE}}</p>
           <nav class="contacts" id="contacts" aria-label="联系方式"></nav>
           <a class="about-link" href="#about" id="about-link">关于我 <span aria-hidden="true">↓</span></a>
         </div>
