@@ -15,7 +15,15 @@ profile:
     text: "把喜欢的事，慢慢变成日常。"
   # 展开「关于我」后显示；每一项是一段纯文本，不需要写 HTML。
   about:
-    - "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    - |-
+      你好，我是海未P，大崎甜花担当。偶像大师系列中主要关注闪耀色彩，也看过本家和灰姑娘的动画。我是闪彩的新人P，SC的建模和音乐一下子打动了我，特别是花组歌曲中的爵士元素和比较华丽的编曲。SCSP 曾经尝试过，但由于不太擅长音游，目前暂时搁置，之后有机会仍想重新体验。
+    - |-
+      最初喜欢甜花是因为她的可爱，进一步了解之后，更打动我的是她内向、细腻而认真的性格。她不太擅长与人交流，也会怀疑自己的能力，却愿意为了信任自己的人鼓起勇气，尝试原本觉得做不到的事情。我很喜欢她与甘奈、千雪相处时的温暖，也喜欢看她在陪伴和鼓励中逐渐找到信心。
+      面对研究生的学业和工作和周围人的期待，我也有疲惫和缺乏信心的时候，有时不想和人交流。因此能够理解甜花想要休息、担心做不好的心情。看着她按照自己的步调成长，让我觉得暂时的退缩和不擅长也可以被理解，自己也不必总是那么苛刻。
+    - |-
+      此外我也关注少女歌剧、Roselia、Morfonica和莲之空，喜欢的女声优包括三森铃子、月音粉、来栖凛、中岛由贵。我很喜欢唱偶像和动画的歌曲，常去KTV一唱就三四个小时，我还制作了很多日语歌的KTV字幕以及投屏软件，这些都可以在我的b站主页找到。 
+      二偶之外我也喜欢铁路和航空，希望能在跑现地的同时满足这些兴趣。
+
 
 images:
   entry_avatar: "assets/entry-chibi.webp"
@@ -53,6 +61,11 @@ contacts:
     action: expand
     value: "1980878786"
     avatar: "assets/avatars/qq.jpg"
+  - id: scsp
+    label: "SCSP"
+    action: expand
+    value: "8XCL6S52X"
+    avatar: "assets/avatars/scsp.webp"
   - id: bilibili
     label: "Bilibili"
     action: link

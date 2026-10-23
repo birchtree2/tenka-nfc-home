@@ -60,8 +60,9 @@
       const panel=document.createElement('div');panel.className='contact-value-panel';
       const value=document.createElement('span');value.className='contact-value';value.textContent=contact.value;
       const copyButton=document.createElement('button');copyButton.type='button';copyButton.className='contact-copy';copyButton.textContent='复制';
-      copyButton.setAttribute('aria-label',`复制${contact.label}号`);
-      copyButton.addEventListener('click',()=>copy(contact.value,`${contact.label}号`));
+      const valueLabel=contact.id==='qq'?`${contact.label}号`:`${contact.label} ID`;
+      copyButton.setAttribute('aria-label',`复制${valueLabel}`);
+      copyButton.addEventListener('click',()=>copy(contact.value,valueLabel));
       panel.append(value,copyButton);details.append(el,panel);$('contacts').append(details);
     } else {
       if(contact.action==='link') {el.href=contact.value;el.target='_blank';el.rel='noopener noreferrer';el.setAttribute('aria-label',`打开${contact.label}主页`);}

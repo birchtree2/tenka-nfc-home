@@ -27,7 +27,7 @@ export async function build({ outputDirectory = 'dist' } = {}) {
   if (!/^\d+$/.test(c.music.song_id)) throw new Error('music.song_id 必须是加引号的数字 ID');
   if (!Array.isArray(c.profile.about) || !c.profile.about.length) throw new Error('profile.about 必须是段落数组');
   c.profile.about.forEach((p,i)=>text(p,`profile.about[${i}]`));
-  if (!Array.isArray(c.contacts) || c.contacts.length !== 4) throw new Error('contacts 必须配置四个按钮');
+  if (!Array.isArray(c.contacts) || c.contacts.length === 0) throw new Error('contacts 必须至少配置一个按钮');
   const ids = new Set();
   for (const contact of c.contacts) {
     ['id','label','value','avatar'].forEach(k=>text(contact[k],`contacts.${k}`));
