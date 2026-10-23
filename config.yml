@@ -1,4 +1,4 @@
-# 修改后运行 bash scripts/deploy-aliyun.sh 发布正式站；GitHub Pages 保留备用。
+# 修改后运行 bash scripts/deploy-aliyun.sh 发布正式站；GitHub 仅用于保存代码。
 # 本文件会成为公开网页的一部分，请只填写愿意公开的信息。
 site:
   title: "海未P · 个人主页"
